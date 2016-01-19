@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnListItemSelectedListener {
+    boolean itemsAreSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +19,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        FloatingActionButton fab_checkmark = (FloatingActionButton) findViewById(R.id.fab_checkmark);
+        fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
+                Snackbar.make(view, "Open \"Add new item\" screen", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
         });
+        fab_checkmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Mark all selected items as done and hide them", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+        });
+        fab_checkmark.hide();
     }
 
     @Override
@@ -49,5 +59,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void listItemSelected(boolean itemsAreSelected) {
+        FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        FloatingActionButton fab_checkmark = (FloatingActionButton) findViewById(R.id.fab_checkmark);
+        if (itemsAreSelected) {
+            fab_checkmark.show();
+            fab_add.hide();
+        } else {
+            fab_add.show();
+            fab_checkmark.hide();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package ca.anthonyn.stodo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,17 +22,29 @@ import java.util.ArrayList;
  */
 public class MainActivityFragment extends Fragment {
     ArrayList<TodoItem> items = new ArrayList();
+    OnListItemSelectedListener itemSelectedCallback;
 
     public MainActivityFragment() {
+    }
+
+    public interface OnListItemSelectedListener {
+        public void listItemSelected(boolean itemsAreSelected);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         String[] todo = new String[]{"homework", "job applications", "food", "sleep", "misc", "misc", "misc", "misc", "misc", "misc", "misc", "misc", "misc", "misc"};
         LinearLayout main_list;
         int i;
+        Activity activity = getActivity();
+
+        try {
+            itemSelectedCallback = (OnListItemSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " does not implement OnListItemSelectedListener");
+        }
 
         main_list = (LinearLayout) rootView.findViewById(R.id.main_list);
 
@@ -52,6 +65,8 @@ public class MainActivityFragment extends Fragment {
                             break;
                         }
                     }
+
+                    MainActivityFragment.this.itemSelectedCallback.listItemSelected(oneSelected);
                 }
             });
         }
