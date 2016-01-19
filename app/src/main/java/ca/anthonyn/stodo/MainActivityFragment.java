@@ -1,13 +1,16 @@
 package ca.anthonyn.stodo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,8 +37,7 @@ public class MainActivityFragment extends Fragment {
         main_list = (LinearLayout) rootView.findViewById(R.id.main_list);
 
         for (i = 0; i < todo.length; i++) {
-            item = new TodoItem(todo[i], rootView.getContext());
-            item.addToLayout(main_list);
+            item = new TodoItem(todo[i], rootView.getContext(), main_list);
             items.add(item);
         }
 
@@ -45,20 +47,43 @@ public class MainActivityFragment extends Fragment {
 
 class TodoItem {
     String data;
-    public TextView view;
+    TextView tview;
+    CardView cview;
+    CheckBox cbview;
+    LinearLayout llayout;
 
-    public TodoItem(String data, Context ctx) {
+    public TodoItem(String data, Context ctx, LinearLayout layout) {
         this.data = data;
-        view = new TextView(ctx);
-        update();
+        tview = new TextView(ctx);
+        cview = new CardView(ctx);
+        cbview = new CheckBox(ctx);
+        llayout = new LinearLayout(ctx);
+
+        initCardView();
+        initTextView();
+
+        tview.setText(this.data);
+
+        llayout.setOrientation(LinearLayout.HORIZONTAL);
+        llayout.addView(cbview);
+        llayout.addView(tview);
+
+        cview.addView(llayout);
+
+        layout.addView(cview);
         Log.w("STODO", "TodoItem created with " + this.data);
     }
 
-    public void addToLayout(LinearLayout layout) {
-        layout.addView(view);
+    private void initCardView() {
+        cview.setCardBackgroundColor(Color.WHITE);
+        cview.setRadius(0);
+        cview.setContentPadding(20, 30, 20, 30);
+        cview.setCardElevation(2.0f);
+        cview.setPadding(0, 15, 0, 15);
+        cview.setUseCompatPadding(true);
     }
 
-    public void update() {
-        view.setText(data);
+    private void initTextView() {
+        tview.setTextColor(Color.BLACK);
     }
 }
