@@ -57,16 +57,7 @@ public class MainActivityFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     item.cview.setSelected(isChecked);
-
-                    boolean oneSelected = false;
-                    for (TodoItem item : items) {
-                        if (item.cview.isSelected()) {
-                            oneSelected = true;
-                            break;
-                        }
-                    }
-
-                    MainActivityFragment.this.itemSelectedCallback.listItemSelected(oneSelected);
+                    MainActivityFragment.this.itemSelectedCallback.listItemSelected(isChecked);
                 }
             });
         }

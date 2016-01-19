@@ -5,12 +5,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnListItemSelectedListener {
-    boolean itemsAreSelected = false;
+    int numSelected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +61,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         return super.onOptionsItemSelected(item);
     }
 
-    public void listItemSelected(boolean itemsAreSelected) {
+    public void listItemSelected(boolean selected) {
         FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         FloatingActionButton fab_checkmark = (FloatingActionButton) findViewById(R.id.fab_checkmark);
-        if (itemsAreSelected) {
+
+        if (selected)
+            numSelected++;
+        else
+            numSelected--;
+
+        if (numSelected > 0) {
             fab_checkmark.show();
             fab_add.hide();
         } else {
