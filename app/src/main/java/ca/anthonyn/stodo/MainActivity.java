@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnListItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     int numSelected = 0;
 
     @Override
@@ -59,23 +59,5 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void listItemSelected(boolean selected) {
-        FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
-        FloatingActionButton fab_checkmark = (FloatingActionButton) findViewById(R.id.fab_checkmark);
-
-        if (selected)
-            numSelected++;
-        else
-            numSelected--;
-
-        if (numSelected > 0) {
-            fab_checkmark.show();
-            fab_add.hide();
-        } else {
-            fab_add.show();
-            fab_checkmark.hide();
-        }
     }
 }
