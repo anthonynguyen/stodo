@@ -1,5 +1,7 @@
 package ca.anthonyn.stodo;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
-    ArrayList<TodoItem> items = new ArrayList();
+    ArrayList<TodoItem> items;
 
     public MainActivityFragment() {
     }
@@ -21,7 +23,6 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        String[] todo = new String[]{"homework", "job applications", "food", "sleep", "slip", "scarecrow", "irritate", "whispering", "suit", "crowded", "space", "provide", "didactic", "advise", "boiling", "phobic", "clap", "bashful", "thunder", "rainy", "deserted", "tangible", "crabby", "drab", "fire", "boundary", "poison", "clear"};
         int i;
 
         RecyclerView recycler = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -31,11 +32,8 @@ public class MainActivityFragment extends Fragment {
         recycler.setLayoutManager(layoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
 
-        for (i = 0; i < todo.length; i++) {
-            TodoItem item;
-            item = new TodoItem(todo[i], i);
-            items.add(item);
-        }
+        TodoListOpenHelper dbHelper = new TodoListOpenHelper(getContext());
+        items = dbHelper.getAllItems();
 
         TodoAdapter adapter = new TodoAdapter(items);
         recycler.setAdapter(adapter);
