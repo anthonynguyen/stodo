@@ -35,7 +35,7 @@ public class MainActivityFragment extends Fragment {
         TodoListOpenHelper dbHelper = new TodoListOpenHelper(getContext());
         items = dbHelper.getAllItems();
 
-        TodoAdapter adapter = new TodoAdapter(items);
+        TodoAdapter adapter = new TodoAdapter(items, dbHelper);
         recycler.setAdapter(adapter);
 
         return rootView;

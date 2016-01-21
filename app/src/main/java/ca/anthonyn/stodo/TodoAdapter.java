@@ -12,10 +12,12 @@ import java.util.ArrayList;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
     final ArrayList<TodoItem> items;
+    final TodoListOpenHelper dbHelper;
     private static Snackbar snackbar;
 
-    public TodoAdapter(ArrayList<TodoItem> items) {
+    public TodoAdapter(ArrayList<TodoItem> items, TodoListOpenHelper dbHelper) {
         this.items = items;
+        this.dbHelper = dbHelper;
     }
 
     class TodoViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +47,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
                 snackbar.show();
 
                 items.remove(position);
+                dbHelper.removeItemById(items.get(position).id);
                 notifyItemRemoved(position);
             }
         });

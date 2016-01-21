@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class TodoListOpenHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE);
 
         for (String s : todo) {
-            db.execSQL("INSERT INTO " + TABLE_NAME " (data) VALUES (\"" + s + "\")");
+            db.execSQL("INSERT INTO " + TABLE_NAME + " (data) VALUES (\"" + s + "\")");
         }
     }
 
@@ -49,5 +50,13 @@ public class TodoListOpenHelper extends SQLiteOpenHelper {
         c.close();
 
         return items;
+    }
+
+    public void removeItemById(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        int s = db.delete(TABLE_NAME, "id = " + id, null);
+        Log.w("stodo", "Removed item with id " + id + " from database");
+        Log.w("stodo", "Returned: " + s);
+        db.close();
     }
 }
